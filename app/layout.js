@@ -2,6 +2,8 @@ import './globals.css';
 import { getSettings } from '@/lib/supabase';
 export const dynamic = 'force-dynamic';
 import Link from 'next/link';
+import Backdrop from '@/components/Backdrop';
+import ThemeToggle from '@/components/ThemeToggle';
 export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
   title: { default: 'Chima — Digital Artist', template: '%s — Chima' },
@@ -12,9 +14,9 @@ export const metadata = {
 const nav = [['/', 'Art'], ['/development', 'Development'], ['/about', 'About'], ['/contact', 'Contact']];
 export default async function Root({ children }) {
   const s = await getSettings();
-  return (<html lang="en"><body>
+  return (<html lang="en" suppressHydrationWarning><head><script dangerouslySetInnerHTML={{ __html: "try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'dark'}catch(e){}" }} /></head><body><Backdrop />
     <header className="top"><Link href="/" className="mark">Chima</Link>
-      <nav aria-label="Main">{nav.map(([h, l]) => <Link key={h} href={h}>{l}</Link>)}</nav></header>
+      <nav aria-label="Main">{nav.map(([h, l]) => <Link key={h} href={h}>{l}</Link>)}<ThemeToggle /></nav></header>
     <main>{children}</main>
     <footer><div><b>CHIMA</b><p>{s.tagline}</p></div>
       <div className="flinks">{nav.map(([h, l]) => <Link key={h} href={h}>{l}</Link>)}
