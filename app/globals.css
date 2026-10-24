@@ -1,0 +1,45 @@
+:root{--bg:#151413;--fg:#ece8e1;--dim:#9a948a;--acc:#ee6a2c;--serif:'Iowan Old Style','Palatino Linotype',Georgia,serif;--sans:system-ui,-apple-system,'Segoe UI',sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.6 var(--serif)}
+a{color:inherit}a:hover{color:var(--acc)}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px}
+img{max-width:100%;display:block}
+.top{position:fixed;inset:0 0 auto 0;z-index:5;display:flex;justify-content:space-between;padding:1rem 2rem;font:15px var(--sans);mix-blend-mode:difference}
+.top a{text-decoration:none;margin-left:1.5rem}.top .mark{margin:0;font-family:var(--serif);font-size:1.2rem}
+section{padding:5rem 2rem 2rem;max-width:1400px;margin:auto}
+h2{font:400 1.1rem var(--sans);color:var(--dim);margin:0 0 1.5rem}
+.hero{position:relative;min-height:100svh;max-width:none;padding:0;display:grid;align-items:end}
+.heroimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.85}
+.ph{display:grid;place-items:center;background:#222;color:var(--dim);font:15px var(--sans)}
+.hero:after{content:"";position:absolute;inset:40% 0 0;background:linear-gradient(transparent,var(--bg))}
+.herotext{position:relative;z-index:2;padding:2rem;max-width:760px}
+h1{font:700 clamp(4rem,14vw,10rem)/.85 var(--serif);letter-spacing:-.04em;margin:0 0 1rem}
+.role{font:15px var(--sans);color:var(--acc);margin:0 0 1rem}.intro{max-width:56ch}
+.btn,.sec,button{font:15px var(--sans)}
+.btn{display:inline-block;background:var(--acc);color:#151413;padding:.7rem 1.3rem;text-decoration:none;border:0;cursor:pointer}
+.btn:hover{color:#151413;filter:brightness(1.1)}.sec{margin-left:1.2rem}
+.masonry{columns:3 320px;column-gap:1.2rem}
+.tile{display:block;width:100%;margin:0 0 1.2rem;padding:0;background:none;border:0;color:inherit;text-align:left;cursor:zoom-in;break-inside:avoid}
+.tile img{width:100%;height:auto;transition:opacity .2s}.tile:hover img{opacity:.8}
+.tile span{display:block;padding-top:.4rem;font-size:.9rem;color:var(--dim)}
+.viewer{position:fixed;inset:0;z-index:20;background:rgba(10,10,9,.96);display:grid;place-items:center;padding:3rem 1rem 1rem;gap:.5rem;overflow:auto}
+.viewer img{max-height:78vh;width:auto;object-fit:contain}.viewer p{max-width:60ch;margin:0;text-align:center}
+.close{position:absolute;top:1rem;right:1rem;background:none;color:var(--fg);border:1px solid var(--dim);padding:.4rem .8rem;cursor:pointer}
+.works{list-style:none;padding:0;margin:1rem 0 0}.works li{display:grid;grid-template-columns:minmax(200px,1fr) 2fr auto;gap:1rem;padding:1rem 0;border-top:1px solid #2c2a27}
+.works em,.empty,.meta{color:var(--dim);font-size:.9rem}
+.page{padding-top:8rem;max-width:900px}.page h1{font-size:clamp(2.5rem,7vw,5rem);line-height:1}
+.lead{font-size:1.25rem;max-width:60ch}
+.break{font:italic 400 clamp(2rem,6vw,4.5rem)/1.1 var(--serif);margin:6rem 0;color:var(--acc)}
+.bg{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2rem}.bg h3,.proj h3{margin:0 0 .3rem}
+.proj{display:grid;grid-template-columns:1fr 1.3fr;gap:2rem;padding:2rem 0;border-top:1px solid #2c2a27}.links a{margin-right:1rem}
+footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;padding:4rem 2rem 2rem;margin-top:4rem;border-top:1px solid #2c2a27;font-size:.95rem}
+footer p{margin:.2rem 0;color:var(--dim)}.flinks a{margin-left:1.2rem;text-decoration:none}
+.login{max-width:420px}.login label,.admin label{display:block}
+input,textarea{background:#1f1d1b;color:var(--fg);border:1px solid #3a3733;padding:.5rem;font:15px var(--sans);margin:.2rem .3rem .2rem 0}
+.login input{width:100%}textarea{width:100%;min-height:3.5rem}
+.admin button{background:#2a2825;color:var(--fg);border:1px solid #3a3733;padding:.35rem .7rem;margin-right:.4rem;cursor:pointer}
+.admin .danger{color:#ff8b6b}.admin p label{display:inline-block;margin-right:1rem;font:14px var(--sans)}
+.row{display:grid;grid-template-columns:160px 1fr;gap:1rem;padding:1rem 0;border-top:1px solid #2c2a27}.row>img{width:160px;height:auto}
+.drop{border:1px dashed var(--dim);padding:1rem;margin:1rem 0}
+@media(max-width:700px){.works li,.proj,.row{grid-template-columns:1fr}.top{padding:1rem}.herotext{padding:1.2rem}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
