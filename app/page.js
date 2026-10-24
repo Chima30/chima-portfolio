@@ -25,9 +25,6 @@ export default async function Home() {
     <section id="work"><h2>Selected artwork</h2><Gallery items={all.filter((a) => !a.categories?.includes('nft'))} /></section>
     {featured.length > 0 && <section><h2>Featured work</h2><Gallery items={featured} /></section>}
     <section><h2>Personal artwork</h2><Gallery items={has('personal')} /></section>
-    <section><h2>Project and community work</h2>
-      {client.length > 0 && <Gallery items={client} />}
-      <ul className="works">{WORKS.map(([t, d]) => <li key={t}><b>{t}</b><span>{d}</span>{!client.length && <em>Artwork to be added from /admin</em>}</li>)}</ul></section>
-    <section><h2>NFTs</h2><Gallery items={has('nft')} /></section>
+        {client.length > 0 && <section><h2>Project and community work</h2><Gallery items={client} /></section>}>
   </>);
 }
