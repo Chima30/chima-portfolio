@@ -6,6 +6,11 @@ export default function Gallery({ items }) {
     const k = (e) => e.key === 'Escape' && setOpen(null);
     window.addEventListener('keydown', k); return () => window.removeEventListener('keydown', k);
   }, []);
+  useEffect(() => {
+    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.08 });
+    document.querySelectorAll('.tile:not(.in)').forEach((t) => io.observe(t));
+    return () => io.disconnect();
+  }, [items]);
   if (!items.length) return <p className="empty">Nothing here yet.</p>;
   return (<>
     <div className="masonry">

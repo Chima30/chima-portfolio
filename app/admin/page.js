@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import SiteText from '@/components/SiteText';
 import { supabase, imgUrl, CATS } from '@/lib/supabase';
 const OK = ['image/jpeg', 'image/png', 'image/webp'];
 export default function Admin() {
@@ -68,6 +69,7 @@ export default function Admin() {
   const pub = items.filter((i) => i.published).length;
   return (<section className="page admin"><h1>Admin</h1>
     <p>{items.length} artworks · {pub} published · {items.length - pub} drafts <button onClick={() => supabase.auth.signOut()}>Log out</button></p>
+    <SiteText />
     <label className="drop">Upload images (JPG, PNG, WebP)
       <input type="file" multiple accept={OK.join(',')} onChange={(e) => { upload([...e.target.files]); e.target.value = ''; }} /></label>
     {busy && <p>{busy}</p>}<p role="status">{msg}</p>

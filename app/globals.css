@@ -43,3 +43,16 @@ input,textarea{background:#1f1d1b;color:var(--fg);border:1px solid #3a3733;paddi
 .drop{border:1px dashed var(--dim);padding:1rem;margin:1rem 0}
 @media(max-width:700px){.works li,.proj,.row{grid-template-columns:1fr}.top{padding:1rem}.herotext{padding:1.2rem}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+
+.hero .heroimg{animation:settle 2s cubic-bezier(.2,.7,.2,1) both}
+.herotext>*{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+.herotext>:nth-child(2){animation-delay:.25s}.herotext>:nth-child(3){animation-delay:.4s}.herotext>:nth-child(4){animation-delay:.55s}
+@keyframes settle{from{opacity:0;transform:scale(1.07)}to{opacity:.85;transform:none}}
+@keyframes rise{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+.tile{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+.tile.in{opacity:1;transform:none}
+.tile img{transition:transform .6s ease,opacity .3s}.tile:hover img{transform:scale(1.025);opacity:1}
+.top nav a{background:linear-gradient(var(--acc),var(--acc)) 0 100%/0 1px no-repeat;transition:background-size .3s}.top nav a:hover{background-size:100% 1px}
+.viewer{animation:fade .3s ease both}@keyframes fade{from{opacity:0}}
+.break{animation:rise 1s both}
+@media(prefers-reduced-motion:reduce){.hero .heroimg,.herotext>*,.break,.viewer{animation:none!important}.tile{opacity:1;transform:none}}
