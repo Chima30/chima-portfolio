@@ -111,3 +111,9 @@ main,footer{position:relative;z-index:1}
 .fbase{display:flex;justify-content:space-between;gap:1rem;font:13px var(--sans);color:var(--dim);padding-top:1rem;border-top:1px solid var(--line)}
 @media(max-width:800px){.intro-card,.art-card{grid-column:span 12}.stat{grid-column:span 6}.top .cta{display:none}.top nav a{padding:.35rem .6rem;font-size:13px}.top .mark{display:none}.top nav{margin:0}.fcols{gap:2rem}}
 @media(prefers-reduced-motion:reduce){.intro-card,.art-card,.stat{animation:none}}
+
+.card,.top{backdrop-filter:none}
+.top{background:color-mix(in srgb,var(--bg) 92%,transparent)}
+.viewer{backdrop-filter:none}
+.backdrop{contain:strict}.bk{will-change:transform}
+.btt{background:none;border:0;color:inherit;font:inherit;cursor:pointer;padding:0}.btt:hover{color:var(--acc)}

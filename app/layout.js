@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Backdrop from '@/components/Backdrop';
 import ThemeToggle from '@/components/ThemeToggle';
 import Nav from '@/components/Nav';
+import BackToTop from '@/components/BackToTop';
 import { getSettings } from '@/lib/supabase';
 export const dynamic = 'force-dynamic';
 export const metadata = {
@@ -17,13 +18,13 @@ export default async function Root({ children }) {
   const s = await getSettings();
   return (<html lang="en" suppressHydrationWarning><head><script dangerouslySetInnerHTML={{ __html: "try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'dark'}catch(e){}" }} /></head><body><Backdrop />
     <header className="top" id="top"><Link href="/" className="mark">chima</Link><Nav items={nav} />
-      <div className="act"><ThemeToggle /><Link className="cta" href="/contact">Get in touch</Link></div></header>
+      <div className="act"><ThemeToggle /><a className="cta" href="https://x.com/therichworth" target="_blank" rel="noopener noreferrer">Get in touch</a></div></header>
     <main>{children}</main>
     <footer className="bigfoot">
-      <div className="fcta"><h2>Let's work together.</h2><p>{s.contact_text}</p><Link className="cta" href="/contact">Get in touch</Link></div>
+      <div className="fcta"><h2>Let's work together.</h2><p>{s.contact_text}</p><a className="cta" href="https://x.com/therichworth" target="_blank" rel="noopener noreferrer">Get in touch</a></div>
       <div className="fcols"><div><h4>Pages</h4>{nav.map(([h, l]) => <Link key={h} href={h}>{l}</Link>)}</div>
         <div><h4>Elsewhere</h4><a href="https://x.com/therichworth" target="_blank" rel="noopener noreferrer">X ↗</a></div></div>
       <div className="wordmark" aria-hidden="true">chima</div>
-      <div className="fbase"><span>© 2026 Chima. {s.tagline}</span><a href="#top">Back to top ↑</a></div>
+      <div className="fbase"><span>© 2026 Chima. {s.tagline}</span><BackToTop /></div>
     </footer></body></html>);
 }
