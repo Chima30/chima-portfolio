@@ -6,21 +6,24 @@ export const dynamic = 'force-dynamic';
 export default async function Home() {
   const s = await getSettings();
   const all = (await published('artworks')).map((a) => ({ ...a, src: imgUrl(a.image_path) }));
-  const has = (c) => all.filter((a) => a.categories?.includes(c));
+  const n = (c) => all.filter((a) => a.categories?.includes(c)).length;
   const hero = all.find((a) => a.hero) || all.find((a) => a.featured) || all[0];
-  const featured = all.filter((a) => a.featured);
-  const client = has('client');
+  const stats = [[all.length, 'pieces'], [n('personal'), 'personal'], [n('client'), 'client work'], [n('nft'), 'NFTs']].filter(([v]) => v > 0);
   return (<>
     <Intro />
-    <section className="hero">
-      {hero ? <img className="heroimg" src={hero.src} alt={hero.title || 'Featured artwork'} /> : <div className="heroimg ph">Hero artwork: choose one in /admin</div>}
-      <div className="herotext">
-        <h1>CHIMA</h1>
+    <section className="bento">
+      <div className="card intro-card">
         <p className="role">{s.role}</p>
+        <h1>CHIMA</h1>
         <p className="intro">{s.intro}</p>
         <p><a className="btn" href="#work">Explore the artwork</a> <Link className="sec" href="/development">Development work</Link></p>
       </div>
+      <div className="card art-card">
+        {hero ? <img src={hero.src} alt={hero.title || 'Featured artwork'} /> : <p className="empty">Choose a hero piece in /admin</p>}
+        {hero?.title && <span className="cap">{hero.title}</span>}
+      </div>
+      {stats.map(([v, l]) => <a key={l} href="#work" className="card stat"><b>{v}</b><span>{l}</span><i>→</i></a>)}
     </section>
-    <section id="work"><h2>Work</h2><Work items={all} /></section>
+    <section id="work"><h2>The work</h2><Work items={all} /></section>
   </>);
 }

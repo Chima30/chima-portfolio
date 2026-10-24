@@ -1,9 +1,10 @@
 import './globals.css';
-import { getSettings } from '@/lib/supabase';
-export const dynamic = 'force-dynamic';
 import Link from 'next/link';
 import Backdrop from '@/components/Backdrop';
 import ThemeToggle from '@/components/ThemeToggle';
+import Nav from '@/components/Nav';
+import { getSettings } from '@/lib/supabase';
+export const dynamic = 'force-dynamic';
 export const metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
   title: { default: 'Chima — Digital Artist', template: '%s — Chima' },
@@ -15,11 +16,14 @@ const nav = [['/', 'Art'], ['/development', 'Development'], ['/about', 'About'],
 export default async function Root({ children }) {
   const s = await getSettings();
   return (<html lang="en" suppressHydrationWarning><head><script dangerouslySetInnerHTML={{ __html: "try{document.documentElement.dataset.theme=localStorage.getItem('theme')||'dark'}catch(e){}" }} /></head><body><Backdrop />
-    <header className="top"><Link href="/" className="mark">Chima</Link>
-      <nav aria-label="Main">{nav.map(([h, l]) => <Link key={h} href={h}>{l}</Link>)}<ThemeToggle /></nav></header>
+    <header className="top" id="top"><Link href="/" className="mark">chima</Link><Nav items={nav} />
+      <div className="act"><ThemeToggle /><Link className="cta" href="/contact">Get in touch</Link></div></header>
     <main>{children}</main>
-    <footer><div><b>CHIMA</b><p>{s.tagline}</p></div>
-      <div className="flinks">{nav.map(([h, l]) => <Link key={h} href={h}>{l}</Link>)}
-        <a href="https://x.com/therichworth" target="_blank" rel="noopener noreferrer">X</a></div></footer>
-  </body></html>);
+    <footer className="bigfoot">
+      <div className="fcta"><h2>Let's work together.</h2><p>{s.contact_text}</p><Link className="cta" href="/contact">Get in touch</Link></div>
+      <div className="fcols"><div><h4>Pages</h4>{nav.map(([h, l]) => <Link key={h} href={h}>{l}</Link>)}</div>
+        <div><h4>Elsewhere</h4><a href="https://x.com/therichworth" target="_blank" rel="noopener noreferrer">X ↗</a></div></div>
+      <div className="wordmark" aria-hidden="true">chima</div>
+      <div className="fbase"><span>© 2026 Chima. {s.tagline}</span><a href="#top">Back to top ↑</a></div>
+    </footer></body></html>);
 }
