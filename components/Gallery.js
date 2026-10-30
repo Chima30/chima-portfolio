@@ -1,40 +1,92 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { titleOf, altOf, detailsOf } from '@/lib/art';
+
+// Orientation decides how much room a piece gets, so every work keeps its own proportions.
+const orient = (r) => (!r ? 'u' : r > 1.2 ? 'l' : r < 0.85 ? 'p' : 's');
+
 export default function Gallery({ items }) {
   const [open, setOpen] = useState(null);
+  const [ratios, setRatios] = useState({});
   const n = items.length;
+  const closeRef = useRef(null), viewerRef = useRef(null), back = useRef(null), touch = useRef(null);
+
+  const go = useCallback((d) => setOpen((o) => (o === null ? o : (o + d + n) % n)), [n]);
+  const close = useCallback(() => setOpen(null), []);
+  const launch = (i) => { back.current = document.activeElement; setOpen(i); };
+
+  // Keyboard, scroll lock, focus return and a simple focus trap while the viewer is open.
   useEffect(() => {
-    const k = (e) => {
-      if (open === null) return;
-      if (e.key === 'Escape') setOpen(null);
-      if (e.key === 'ArrowRight') setOpen((o) => (o + 1) % n);
-      if (e.key === 'ArrowLeft') setOpen((o) => (o - 1 + n) % n);
+    if (open === null) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const onKey = (e) => {
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowRight') go(1);
+      else if (e.key === 'ArrowLeft') go(-1);
+      else if (e.key === 'Tab' && viewerRef.current) {
+        const f = [...viewerRef.current.querySelectorAll('button, a[href]')];
+        if (!f.length) return;
+        const first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
     };
-    window.addEventListener('keydown', k); return () => window.removeEventListener('keydown', k);
-  }, [open, n]);
+    window.addEventListener('keydown', onKey);
+    closeRef.current?.focus();
+    return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = prev; back.current?.focus?.(); };
+  }, [open === null, close, go]);
+
+  // Load the neighbours so Previous and Next feel immediate.
   useEffect(() => {
-    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.08 });
-    document.querySelectorAll('.tile:not(.in)').forEach((t) => io.observe(t));
-    return () => io.disconnect();
-  }, [items]);
+    if (open === null || n < 2) return;
+    [1, -1].forEach((d) => { const im = new Image(); im.src = items[(open + d + n) % n].src; });
+  }, [open, items, n]);
+
+  const measure = (id) => (e) => {
+    const { naturalWidth: w, naturalHeight: h } = e.currentTarget;
+    if (w && h) setRatios((r) => (r[id] ? r : { ...r, [id]: w / h }));
+  };
+
+  const onTouchStart = (e) => { const t = e.touches[0]; touch.current = [t.clientX, t.clientY]; };
+  const onTouchEnd = (e) => {
+    if (!touch.current) return;
+    const t = e.changedTouches[0], dx = t.clientX - touch.current[0], dy = t.clientY - touch.current[1];
+    touch.current = null;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.4) go(dx < 0 ? 1 : -1);
+  };
+
   if (!n) return <p className="empty">Nothing here yet.</p>;
-  const a = open !== null ? items[open] : null, stop = (e) => e.stopPropagation();
+  const a = open !== null ? items[open] : null;
+  const stop = (e) => e.stopPropagation();
+
   return (<>
-    <div className="masonry">
+    <ul className="wall">
       {items.map((x, i) => (
-        <button key={x.id} className="tile" onClick={() => setOpen(i)} aria-label={`View ${x.title || 'artwork'}`}>
-          <img src={x.src} alt={x.title || ''} loading="lazy" /><span>{x.title}</span>
-        </button>))}
-    </div>
+        <li key={x.id} className={`fig o-${orient(ratios[x.id])}`}>
+          <button className="piece" onClick={() => launch(i)} aria-label={`View ${titleOf(x) || 'artwork'}${x.year ? `, ${x.year}` : ''}`}>
+            <img src={x.src} alt={altOf(x)} loading={i < 3 ? 'eager' : 'lazy'} decoding="async" onLoad={measure(x.id)} />
+          </button>
+          {(titleOf(x) || x.year) && <p className="cap"><span>{titleOf(x)}</span>{x.year ? <time>{x.year}</time> : null}</p>}
+        </li>))}
+    </ul>
     {a && (
-      <div className="viewer" role="dialog" aria-modal="true" onClick={() => setOpen(null)}>
-        <div className="vhead" onClick={stop}><b>{a.title}</b><span>{[a.year, a.project].filter(Boolean).join(' · ')}</span>
-          <em>{open + 1} / {n}</em><button className="close" autoFocus onClick={() => setOpen(null)}>Close</button></div>
-        <img src={a.src} alt={a.title || ''} onClick={stop} />
-        {n > 1 && <><button className="vn l" aria-label="Previous" onClick={(e) => { stop(e); setOpen((open - 1 + n) % n); }}>‹</button>
-          <button className="vn r" aria-label="Next" onClick={(e) => { stop(e); setOpen((open + 1) % n); }}>›</button></>}
-        {(a.description || a.link) && <p onClick={stop}>{a.description} {a.link && <a href={a.link} target="_blank" rel="noopener noreferrer">Visit link</a>}</p>}
-        <div className="thumbs" onClick={stop}>{items.map((t, j) => <button key={t.id} className={j === open ? 'on' : ''} aria-label={`Open ${t.title || 'artwork'}`} onClick={() => setOpen(j)}><img src={t.src} alt="" /></button>)}</div>
+      <div className="viewer" ref={viewerRef} role="dialog" aria-modal="true" aria-label={titleOf(a) || 'Artwork'}
+        onClick={close} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+        <div className="vtop" onClick={stop}>
+          <span className="vcount" aria-live="polite">{open + 1} of {n}</span>
+          <button ref={closeRef} className="vbtn" onClick={close}>Close</button>
+        </div>
+        <div className="vstage"><img key={a.id} src={a.src} alt={altOf(a)} onClick={stop} /></div>
+        <div className="vinfo" onClick={stop}>
+          <div className="vtext">
+            {titleOf(a) && <h2>{titleOf(a)}</h2>}
+            {detailsOf(a) && <p className="vmeta">{detailsOf(a)}</p>}
+            {a.description && <p className="vdesc">{a.description}</p>}
+            {a.link && <p><a href={a.link} target="_blank" rel="noopener noreferrer">Visit link</a></p>}
+          </div>
+          {n > 1 && <div className="vnav"><button className="vbtn" onClick={() => go(-1)}>Previous</button><button className="vbtn" onClick={() => go(1)}>Next</button></div>}
+        </div>
       </div>)}
   </>);
 }
