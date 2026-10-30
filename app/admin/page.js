@@ -2,7 +2,6 @@
 import { useEffect, useState } from 'react';
 import SiteText from '@/components/SiteText';
 import { supabase, imgUrl, CATS } from '@/lib/supabase';
-import { isRawTitle } from '@/lib/art';
 const OK = ['image/jpeg', 'image/png', 'image/webp'];
 export default function Admin() {
   const [session, setSession] = useState(null), [ready, setReady] = useState(false);
@@ -37,7 +36,7 @@ export default function Admin() {
       const path = `${crypto.randomUUID()}.${file.name.split('.').pop().toLowerCase()}`;
       const up = await supabase.storage.from('art').upload(path, file, { contentType: file.type });
       if (up.error) { setMsg(`${file.name}: ${up.error.message}`); continue; }
-      const ins = await supabase.from('artworks').insert({ image_path: path, title: '', position: ++pos });
+      const ins = await supabase.from('artworks').insert({ image_path: path, title: file.name.replace(/\.[^.]+$/, ''), position: ++pos });
       if (ins.error) { await supabase.storage.from('art').remove([path]); setMsg(`${file.name}: ${ins.error.message}`); }
     }
     setBusy(''); load();
@@ -57,7 +56,7 @@ export default function Admin() {
     load();
   };
   const del = async (a) => {
-    if (!confirm(`Delete "${a.title || 'this artwork'}" and its image? This cannot be undone.`)) return;
+    if (!confirm(`Delete "${a.title}" and its image? This cannot be undone.`)) return;
     const { error } = await supabase.from('artworks').delete().eq('id', a.id);
     if (error) return setMsg(error.message);
     await supabase.storage.from('art').remove([a.image_path]); load();
@@ -80,7 +79,6 @@ export default function Admin() {
         <input defaultValue={a.title} placeholder="Title" onBlur={(e) => e.target.value !== a.title && save(a.id, { title: e.target.value })} />
         <textarea defaultValue={a.description} placeholder="Description" onBlur={(e) => e.target.value !== a.description && save(a.id, { description: e.target.value })} />
         <input defaultValue={a.year || ''} placeholder="Year" size="5" onBlur={(e) => save(a.id, { year: parseInt(e.target.value) || null })} />
-        <input defaultValue={a.medium || ''} placeholder="Medium (for example digital painting)" onBlur={(e) => e.target.value !== (a.medium || '') && save(a.id, { medium: e.target.value || null })} />
         <input defaultValue={a.project || ''} placeholder="Project or client" onBlur={(e) => save(a.id, { project: e.target.value || null })} />
         <input defaultValue={a.link || ''} placeholder="Link (optional)" onBlur={(e) => save(a.id, { link: e.target.value || null })} />
         <p>{CATS.map(([k, l]) => <label key={k}><input type="checkbox" checked={!!a.categories?.includes(k)}
@@ -91,7 +89,7 @@ export default function Admin() {
           <button onClick={() => move(i, -1)} aria-label="Move up">Up</button><button onClick={() => move(i, 1)} aria-label="Move down">Down</button>
           <label className="rep">Replace image<input type="file" accept={OK.join(',')} onChange={(e) => replace(a, e.target.files[0])} /></label>
           <button className="danger" onClick={() => del(a)}>Delete</button></p>
-        <p className="meta">{a.published ? 'Published' : 'Draft, not public'}{isRawTitle(a.title) ? ' · Needs a title. The public site shows no caption until you add one.' : ''}</p>
+        <p className="meta">{a.published ? 'Published' : 'Draft, not public'}</p>
       </div></div>))}
   </section>);
 }
