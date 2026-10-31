@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Headline from '@/components/Headline';
 import Featured from '@/components/Featured';
 import Marquee from '@/components/Marquee';
-import Work from '@/components/Work';
+import Folders from '@/components/Folders';
 import Intro from '@/components/Intro';
 import { published, imgUrl, getSettings } from '@/lib/supabase';
 export const dynamic = 'force-dynamic';
@@ -24,6 +24,6 @@ export default async function Home() {
     {all.length === 0 && <p className="empty" style={{ textAlign: 'center' }}>No artwork published yet. Add some in /admin.</p>}
     {spot.length > 0 && <Featured items={spot} />}
     <div className="mqwrap"><Marquee items={all} /></div>
-    <section id="work"><h2 className="h2" data-reveal>All <em>work</em></h2><Work items={all} /></section>
+    <section id="work"><h2 className="h2" data-reveal>Browse <em>folders</em></h2><Folders items={all} /></section>
   </>);
 }
