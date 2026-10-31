@@ -11,6 +11,6 @@ export default function Intro() {
   }, []);
   if (s === 'gone') return null;
   return (<div className={`intro-cover ${s}`} onClick={() => setS('gone')}>
-    <div><p>hi, i'm chima</p><p>i make digital art</p><p>i tell stories in colour</p><p>want to see?</p></div>
+    <div><p>hi, i'm chima</p><p>i make art.</p><p>take a look.</p></div>
     <button onClick={() => setS('gone')}>Skip</button></div>);
 }

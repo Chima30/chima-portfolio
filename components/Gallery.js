@@ -23,14 +23,14 @@ export default function Gallery({ items }) {
     <div className="masonry">
       {items.map((x, i) => (
         <button key={x.id} className="tile" onClick={() => setOpen(i)} aria-label={`View ${x.title || 'artwork'}`}>
-          <img src={x.src} alt={x.title || ''} loading="lazy" /><span>{x.title}</span>
+          <img src={x.src} alt={x.title || 'Artwork'} loading="lazy" />{x.title && <span>{x.title}</span>}
         </button>))}
     </div>
     {a && (
       <div className="viewer" role="dialog" aria-modal="true" onClick={() => setOpen(null)}>
-        <div className="vhead" onClick={stop}><b>{a.title}</b><span>{[a.year, a.project].filter(Boolean).join(' · ')}</span>
+        <div className="vhead" onClick={stop}><b>{a.title || 'Untitled'}</b><span>{[a.year, a.project].filter(Boolean).join(' · ')}</span>
           <em>{open + 1} / {n}</em><button className="close" autoFocus onClick={() => setOpen(null)}>Close</button></div>
-        <img src={a.src} alt={a.title || ''} onClick={stop} />
+        <img src={a.src} alt={a.title || 'Artwork'} onClick={stop} />
         {n > 1 && <><button className="vn l" aria-label="Previous" onClick={(e) => { stop(e); setOpen((open - 1 + n) % n); }}>‹</button>
           <button className="vn r" aria-label="Next" onClick={(e) => { stop(e); setOpen((open + 1) % n); }}>›</button></>}
         {(a.description || a.link) && <p onClick={stop}>{a.description} {a.link && <a href={a.link} target="_blank" rel="noopener noreferrer">Visit link</a>}</p>}

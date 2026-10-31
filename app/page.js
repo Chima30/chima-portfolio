@@ -5,10 +5,8 @@ import { published, imgUrl, getSettings } from '@/lib/supabase';
 export const dynamic = 'force-dynamic';
 export default async function Home() {
   const s = await getSettings();
-  const all = (await published('artworks')).map((a) => ({ ...a, src: imgUrl(a.image_path) }));
-  const n = (c) => all.filter((a) => a.categories?.includes(c)).length;
+  const all = (await published('artworks')).map((a) => ({ ...a, title: /^\d+$/.test(a.title || '') ? '' : a.title, src: imgUrl(a.image_path) }));
   const hero = all.find((a) => a.hero) || all.find((a) => a.featured) || all[0];
-  const stats = [[all.length, 'pieces'], [n('personal'), 'personal'], [n('client'), 'client work'], [n('nft'), 'NFTs']].filter(([v]) => v > 0);
   return (<>
     <Intro />
     <section className="bento">
@@ -22,7 +20,6 @@ export default async function Home() {
         {hero ? <img src={hero.src} alt={hero.title || 'Featured artwork'} /> : <p className="empty">Choose a hero piece in /admin</p>}
         {hero?.title && <span className="cap">{hero.title}</span>}
       </div>
-      {stats.map(([v, l]) => <a key={l} href="#work" className="card stat"><b>{v}</b><span>{l}</span><i>→</i></a>)}
     </section>
     <section id="work"><h2>The work</h2><Work items={all} /></section>
   </>);

@@ -36,7 +36,7 @@ export default function Admin() {
       const path = `${crypto.randomUUID()}.${file.name.split('.').pop().toLowerCase()}`;
       const up = await supabase.storage.from('art').upload(path, file, { contentType: file.type });
       if (up.error) { setMsg(`${file.name}: ${up.error.message}`); continue; }
-      const ins = await supabase.from('artworks').insert({ image_path: path, title: file.name.replace(/\.[^.]+$/, ''), position: ++pos });
+      const ins = await supabase.from('artworks').insert({ image_path: path, title: '', position: ++pos });
       if (ins.error) { await supabase.storage.from('art').remove([path]); setMsg(`${file.name}: ${ins.error.message}`); }
     }
     setBusy(''); load();
