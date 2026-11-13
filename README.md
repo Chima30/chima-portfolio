@@ -16,3 +16,8 @@ For now, add rows in Supabase > Table Editor > projects (set published = true). 
 
 SECURITY
 Admin rights are enforced by Supabase row level security: only the email in the admins table can write. The anon key in the browser is public by design.
+
+XENON CINEMA (DEVELOPMENT PAGE)
+The Development page opens with "Cinema, powered by XENON": the real XENON player skin on the official Video.js v10 player, playing Sintel (Blender Foundation, CC BY 3.0) from Mux. Direct link: /development#cinema.
+Files: components/XenonPlayer.js (the player), components/CinemaShowcase.js (loads it in the browser), vendor/xenon (a build of the skin from github.com/Chima30/Xenon, see vendor/xenon/README.md), scripts/sync-xenon.mjs (rebuilds vendor/xenon from a XENON checkout).
+Packages: @videojs/react and @videojs/mux-video 10.3.0, @fontsource-variable/space-grotesk. No Supabase setup is needed for it.
