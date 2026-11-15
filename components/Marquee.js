@@ -17,7 +17,7 @@ export default function Marquee({ items }) {
             {[0, 1].map((c) => list.map(({ a, i }, k) => (
               <button key={c + '-' + k} className="mq-t" tabIndex={c ? -1 : 0} aria-hidden={c ? true : undefined}
                 aria-label={`View ${a.title || 'artwork'}`} onClick={() => setOpen(i)}>
-                <img src={art(a.src, 640)} alt={c ? '' : a.title || 'Artwork'} decoding="async" loading="lazy" /></button>)))}
+                <img src={art(a.src, 640)} alt={c ? '' : a.title || 'Artwork'} decoding="async" /></button>)))}
           </div></div>);
       })}
     </div>
