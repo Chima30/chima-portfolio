@@ -30,8 +30,8 @@ export default async function Root({ children }) {
       <div className="cta-block" data-reveal>
         <div className="cta-left"><span className="badge">Contact</span>
           <div className="seal-w" aria-hidden="true">
-            <svg className="seal" viewBox="0 0 120 120"><defs><path id="sealpath" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0" /></defs>
-              <text fontSize="11" fill="currentColor"><textPath href="#sealpath" textLength="283" lengthAdjust="spacing">art • illustration • stories • colour • </textPath></text></svg>
+            <span className="seal"><svg viewBox="0 0 120 120"><defs><path id="sealpath" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0" /></defs>
+              <text fontSize="11" fill="currentColor"><textPath href="#sealpath" textLength="283" lengthAdjust="spacing">art • illustration • stories • colour • </textPath></text></svg></span>
             <i>c</i></div></div>
         <div className="cta-right"><p className="cta-lead">Let's start</p>
           <h2>Work <em>together</em></h2>

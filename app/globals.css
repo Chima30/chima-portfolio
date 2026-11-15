@@ -13,7 +13,7 @@ em{font:italic 400 1em var(--serif);color:var(--soft)}
 
 /* sparkles */
 .backdrop{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;color:var(--fg)}
-.sp{position:absolute;opacity:0;animation:twinkle 8s ease-in-out infinite}
+.sp{position:absolute;opacity:0;animation:twinkle 8s ease-in-out infinite}.sp svg{display:block;width:100%;height:100%}
 @keyframes twinkle{0%,100%{opacity:.05;transform:scale(.6) rotate(0)}50%{opacity:.5;transform:scale(1) rotate(45deg)}}
 
 /* header */
@@ -126,7 +126,7 @@ em{font:italic 400 1em var(--serif);color:var(--soft)}
 .cta-block{display:grid;grid-template-columns:1fr 1.5fr;gap:2rem;align-items:center;padding:3.5rem 0;border-top:1px solid var(--line)}
 .cta-left{display:flex;flex-direction:column;gap:1.8rem;align-items:flex-start}
 .seal-w{position:relative;width:128px;height:128px;display:grid;place-items:center;color:var(--dim)}
-.seal{position:absolute;inset:0;animation:spin 28s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.seal{position:absolute;inset:0;display:block;animation:spin 28s linear infinite}.seal svg{display:block;width:100%;height:100%}@keyframes spin{to{transform:rotate(360deg)}}
 .seal-w i{font:italic 400 2.2rem var(--serif);color:var(--fg)}
 .cta-right{text-align:right}.cta-lead{font-size:clamp(1.1rem,2.4vw,1.6rem);color:var(--dim);margin:0}
 .cta-right h2{font:300 clamp(2.8rem,8vw,5.6rem)/1 var(--sans);letter-spacing:-.04em;margin:.2rem 0 1rem}
