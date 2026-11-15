@@ -9,13 +9,17 @@ export default function Motion() {
     return () => io.disconnect();
   }, [path]);
   useEffect(() => {
-    const m = (e) => {
-      const g = e.target.closest && e.target.closest('.glass'); if (!g) return;
+    // Once per frame at most: pointer events can arrive far faster than the screen refreshes.
+    let raf = 0, ev = null;
+    const apply = () => {
+      raf = 0;
+      const g = ev && ev.target.closest && ev.target.closest('.glass'); if (!g) return;
       const r = g.getBoundingClientRect();
-      g.style.setProperty('--mx', e.clientX - r.left + 'px'); g.style.setProperty('--my', e.clientY - r.top + 'px');
+      g.style.setProperty('--mx', ev.clientX - r.left + 'px'); g.style.setProperty('--my', ev.clientY - r.top + 'px');
     };
+    const m = (e) => { ev = e; if (!raf) raf = requestAnimationFrame(apply); };
     document.addEventListener('pointermove', m, { passive: true });
-    return () => document.removeEventListener('pointermove', m);
+    return () => { document.removeEventListener('pointermove', m); cancelAnimationFrame(raf); };
   }, []);
   return null;
 }

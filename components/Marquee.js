@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Viewer from '@/components/Viewer';
+import { art } from '@/lib/img';
 export default function Marquee({ items }) {
   const [open, setOpen] = useState(null);
   if (!items.length) return null;
@@ -16,7 +17,7 @@ export default function Marquee({ items }) {
             {[0, 1].map((c) => list.map(({ a, i }, k) => (
               <button key={c + '-' + k} className="mq-t" tabIndex={c ? -1 : 0} aria-hidden={c ? true : undefined}
                 aria-label={`View ${a.title || 'artwork'}`} onClick={() => setOpen(i)}>
-                <img src={a.src} alt={c ? '' : a.title || 'Artwork'} decoding="async" /></button>)))}
+                <img src={art(a.src, 640)} alt={c ? '' : a.title || 'Artwork'} decoding="async" loading="lazy" /></button>)))}
           </div></div>);
       })}
     </div>

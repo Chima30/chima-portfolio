@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { art, artSet } from '@/lib/img';
 export default function Viewer({ items, index, onChange }) {
   const n = items.length, a = items[index];
   const [ready, setReady] = useState(false);
@@ -20,10 +21,10 @@ export default function Viewer({ items, index, onChange }) {
     <div className="viewer" role="dialog" aria-modal="true" onClick={() => onChange(null)}>
       <div className="vhead" onClick={stop}><b>{a.title || 'Untitled'}</b><span>{[a.year, a.project].filter(Boolean).join(' · ')}</span>
         <em>{index + 1} / {n}</em><button className="close" autoFocus onClick={() => onChange(null)}>Close</button></div>
-      <img src={a.src} alt={a.title || 'Artwork'} onClick={stop} />
+      <img src={art(a.src, 1920, 85)} srcSet={artSet(a.src, [1080, 1920, 3840], 85)} sizes="100vw" alt={a.title || 'Artwork'} onClick={stop} />
       {n > 1 && <><button className="vn l" aria-label="Previous" onClick={(e) => { stop(e); onChange((index - 1 + n) % n); }}>‹</button>
         <button className="vn r" aria-label="Next" onClick={(e) => { stop(e); onChange((index + 1) % n); }}>›</button></>}
       {(a.description || a.link) && <p onClick={stop}>{a.description} {a.link && <a href={a.link} target="_blank" rel="noopener noreferrer">Visit link</a>}</p>}
-      <div className="thumbs" onClick={stop}>{items.map((t, j) => <button key={t.id} className={j === index ? 'on' : ''} aria-label={`Open ${t.title || 'artwork'}`} onClick={() => onChange(j)}><img src={t.src} alt="" /></button>)}</div>
+      <div className="thumbs" onClick={stop}>{items.map((t, j) => <button key={t.id} className={j === index ? 'on' : ''} aria-label={`Open ${t.title || 'artwork'}`} onClick={() => onChange(j)}><img src={art(t.src, 128)} alt="" loading="lazy" decoding="async" /></button>)}</div>
     </div>, document.body);
 }

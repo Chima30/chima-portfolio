@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Viewer from '@/components/Viewer';
+import { art, artSet } from '@/lib/img';
 export default function Gallery({ items }) {
   const [open, setOpen] = useState(null);
   useEffect(() => {
@@ -13,7 +14,7 @@ export default function Gallery({ items }) {
     <div className="masonry">
       {items.map((x, i) => (
         <button key={x.id} className="tile" onClick={() => setOpen(i)} aria-label={`View ${x.title || 'artwork'}`}>
-          <img src={x.src} alt={x.title || 'Artwork'} loading="lazy" />{x.title && <span>{x.title}</span>}
+          <img src={art(x.src, 750)} srcSet={artSet(x.src, [384, 750, 1080])} sizes="(max-width: 700px) 50vw, 380px" alt={x.title || 'Artwork'} loading="lazy" decoding="async" />{x.title && <span>{x.title}</span>}
         </button>))}
     </div>
     {open !== null && <Viewer items={items} index={open} onChange={setOpen} />}

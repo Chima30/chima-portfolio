@@ -1,5 +1,6 @@
 import { published, imgUrl } from '@/lib/supabase';
 import CinemaShowcase from '@/components/CinemaShowcase';
+import { art } from '@/lib/img';
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Development' };
 export default async function Dev() {
@@ -16,7 +17,7 @@ export default async function Dev() {
       <p className="links"><a href="https://xenon-ruddy.vercel.app/" target="_blank" rel="noopener noreferrer">Full XENON demo</a><a href="https://github.com/Chima30/Xenon" target="_blank" rel="noopener noreferrer">Source on GitHub</a></p>
     </div>
     {projects.map((p) => (<article className="proj" key={p.id}>
-      {p.cover_path && <img src={imgUrl(p.cover_path)} alt={p.name} loading="lazy" />}
+      {p.cover_path && <img src={art(imgUrl(p.cover_path), 1080)} alt={p.name} loading="lazy" decoding="async" />}
       <div><h3>{p.name}</h3>{p.status && <p className="meta">{p.status}</p>}
         <p>{p.description}</p>
         {p.problem && <p><b>Problem.</b> {p.problem}</p>}{p.solution && <p><b>Solution.</b> {p.solution}</p>}

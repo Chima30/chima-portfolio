@@ -1,6 +1,7 @@
 'use client';
 import { useRef, useState } from 'react';
 import Viewer from '@/components/Viewer';
+import { art, artSet } from '@/lib/img';
 const DEFS = [['featured', 'Featured Art'], ['personal', 'Personal Artwork'], ['client', 'Client and Community Work'], ['nft', 'NFTs']];
 export default function Folders({ items }) {
   const [open, setOpen] = useState(null), [view, setView] = useState(null);
@@ -21,7 +22,7 @@ export default function Folders({ items }) {
       {list.map((f, n) => (
         <button key={f.k} className={'folder' + (open === f.k ? ' open' : '')} style={{ '--n': n }} aria-expanded={open === f.k} onClick={() => toggle(f.k)}>
           <span className="fd-back"><span className="fd-tab" /></span>
-          <span className="fd-pics">{f.items.slice(0, 3).map((a, i) => <img key={a.id} className={'p' + i} src={a.src} alt="" loading="lazy" />)}</span>
+          <span className="fd-pics">{f.items.slice(0, 3).map((a, i) => <img key={a.id} className={'p' + i} src={art(a.src, 256)} alt="" loading="lazy" decoding="async" />)}</span>
           <span className="fd-front"><b>{f.l}</b><small>{f.items.length} {f.items.length === 1 ? 'piece' : 'pieces'}</small><i aria-hidden="true">{open === f.k ? '−' : '+'}</i></span>
         </button>))}
     </div>
@@ -32,7 +33,7 @@ export default function Folders({ items }) {
         <div className="masonry">
           {cur.items.map((x, i) => (
             <button key={x.id} className="ft" style={{ '--i': i }} onClick={() => setView(i)} aria-label={`View ${x.title || 'artwork'}`}>
-              <img src={x.src} alt={x.title || 'Artwork'} loading="lazy" />{x.title && <span>{x.title}</span>}
+              <img src={art(x.src, 750)} srcSet={artSet(x.src, [384, 750, 1080])} sizes="(max-width: 700px) 50vw, 380px" alt={x.title || 'Artwork'} loading="lazy" decoding="async" />{x.title && <span>{x.title}</span>}
             </button>))}
         </div>
       </div>)}

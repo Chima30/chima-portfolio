@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import Viewer from '@/components/Viewer';
+import { art, artSet } from '@/lib/img';
 export default function Featured({ items }) {
   const ref = useRef(null);
   const [act, setAct] = useState(0), [open, setOpen] = useState(null);
@@ -18,7 +19,7 @@ export default function Featured({ items }) {
     <div className="fc-track" ref={ref} onScroll={pick}>
       {items.map((a, i) => (
         <button key={a.id} className={'glass fcard' + (i === act ? ' act' : '')} onClick={() => setOpen(i)} aria-label={`View ${a.title || 'artwork'}`}>
-          <img src={a.src} alt={a.title || 'Artwork'} />
+          <img src={art(a.src, 750)} srcSet={artSet(a.src, [384, 750])} sizes="(max-width: 480px) 76vw, 340px" alt={a.title || 'Artwork'} decoding="async" />
           {(a.title || a.project) && <span>{a.title}{a.title && a.project ? ' · ' : ''}{a.project}</span>}
         </button>))}
     </div>
