@@ -1,4 +1,5 @@
 import './globals.css';
+import { Inter, Playfair_Display } from 'next/font/google';
 import Link from 'next/link';
 import Backdrop from '@/components/Backdrop';
 import ThemeToggle from '@/components/ThemeToggle';
@@ -14,13 +15,15 @@ export const metadata = {
   openGraph: { title: 'Chima — Digital Artist', description: 'Digital artist, illustrator, creative.', type: 'website' },
   icons: { icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23090a0a'/><path d='M16 4l2 10 10 2-10 2-2 10-2-10-10-2 10-2z' fill='%23a3c19a'/></svg>" },
 };
+// Served from this site and preloaded, with size-matched fallbacks, so the text does not reflow when they arrive.
+// (From Google Fonts directly they arrived seconds later, mid-way through the headline animation.)
+const inter = Inter({ subsets: ['latin'], weight: ['300', '400', '500', '600'], display: 'swap', variable: '--font-inter' });
+const playfair = Playfair_Display({ subsets: ['latin'], weight: ['400', '500'], style: ['italic'], display: 'swap', variable: '--font-playfair' });
 const nav = [['/', 'Art'], ['/development', 'Development'], ['/about', 'About'], ['/contact', 'Contact']];
 const X = 'https://x.com/therichworth';
 export default async function Root({ children }) {
   const s = await getSettings();
-  return (<html lang="en" suppressHydrationWarning><head>
-    <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@1,400;1,500&display=swap" />
+  return (<html lang="en" className={`${inter.variable} ${playfair.variable}`} suppressHydrationWarning><head>
     <script dangerouslySetInnerHTML={{ __html: "try{var d=document.documentElement;d.dataset.theme=localStorage.getItem('theme')||'dark';d.classList.add('js');var r=matchMedia('(prefers-reduced-motion: reduce)').matches;d.style.setProperty('--hd',(sessionStorage.getItem('intro')||r)?'0s':'3.1s')}catch(e){}" }} />
   </head><body><Backdrop /><Motion />
     <header className="top" id="top"><Link href="/" className="mark">chima</Link><Nav items={nav} />
