@@ -155,7 +155,7 @@ input,textarea{background:var(--field);color:var(--fg);border:1px solid var(--li
 /* shipped: live projects as small websites */
 .shipped{margin:4rem 0 1rem;padding-top:2rem;border-top:1px solid var(--line);scroll-margin-top:6.5rem}
 .shipped h2{font:300 clamp(1.9rem,4.4vw,2.8rem)/1.08 var(--sans);letter-spacing:-.03em;margin:.35rem 0 .9rem}.shipped h2 em{font-family:var(--serif);color:var(--acc)}
-.shipped,.ship{min-width:0}.ship{margin-top:3.5rem}.ship-win{max-width:100%}
+.shipped,.ship{min-width:0}.ship{--lap:2.75rem;margin-top:3.5rem}.ship-win{max-width:100%}
 .ship-idx{display:flex;gap:.6rem;margin:0 0 .9rem;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
 .ship-win{display:block;text-decoration:none;color:inherit;border:1px solid var(--line2);border-radius:18px;overflow:hidden;background:#0d0f0e;box-shadow:0 40px 90px -50px rgba(0,0,0,.75);transition:transform .6s cubic-bezier(.2,.7,.2,1),border-color .3s,box-shadow .6s}
 .ship-win:hover,.ship-win:focus-visible{transform:translateY(-6px);border-color:var(--acc);box-shadow:0 50px 100px -45px var(--glow)}
@@ -168,9 +168,9 @@ input,textarea{background:var(--field);color:var(--fg);border:1px solid var(--li
 .ship-shot{position:relative;display:block;width:100%;aspect-ratio:16/10;overflow:hidden}
 .ship-shot img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:top;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
 .ship-win:hover .ship-shot img{transform:scale(1.025)}
-.ship-visit{position:absolute;left:50%;top:50%;white-space:nowrap;box-shadow:0 10px 30px -10px rgba(0,0,0,.6);padding:.5rem 1.1rem;border-radius:99px;background:rgba(8,9,10,.82);backdrop-filter:blur(8px);color:#ededeb;font-size:13px;border:1px solid rgba(255,255,255,.14);opacity:0;transform:translate(-50%,calc(-50% + 10px));transition:opacity .35s,transform .45s cubic-bezier(.2,.7,.2,1)}
-.ship-win:hover .ship-visit,.ship-win:focus-visible .ship-visit{opacity:1;transform:translate(-50%,-50%)}
-.ship-card{position:relative;z-index:1;margin:-2.75rem 2.5rem 0;padding:2.4rem 2.6rem 2.2rem;background:var(--field);border:1px solid var(--line);border-top:0;border-radius:0 0 18px 18px;
+.ship-visit{position:absolute;left:50%;bottom:calc(var(--lap) + .9rem);white-space:nowrap;box-shadow:0 10px 30px -10px rgba(0,0,0,.6);padding:.5rem 1.1rem;border-radius:99px;background:rgba(8,9,10,.82);backdrop-filter:blur(8px);color:#ededeb;font-size:13px;border:1px solid rgba(255,255,255,.14);opacity:0;transform:translate(-50%,10px);transition:opacity .35s,transform .45s cubic-bezier(.2,.7,.2,1)}
+.ship-win:hover .ship-visit,.ship-win:focus-visible .ship-visit{opacity:1;transform:translate(-50%,0)}
+.ship-card{position:relative;z-index:1;margin:calc(var(--lap) * -1) 2.5rem 0;padding:2.4rem 2.6rem 2.2rem;background:var(--field);border:1px solid var(--line);border-top:0;border-radius:0 0 18px 18px;
   -webkit-mask:radial-gradient(circle 7px at 50% 0,#0000 98%,#000) 0 0/22px 100% repeat-x;mask:radial-gradient(circle 7px at 50% 0,#0000 98%,#000) 0 0/22px 100% repeat-x}
 .ship-top{display:flex;justify-content:space-between;padding-bottom:1.1rem;border-bottom:1px dashed var(--line2);color:var(--dim);font-size:.95rem}
 .ship-card h3{margin:1.4rem 0 .2rem;font:600 clamp(2.6rem,7vw,4.2rem)/.95 var(--sans);letter-spacing:-.045em}
@@ -186,7 +186,7 @@ input,textarea{background:var(--field);color:var(--fg);border:1px solid var(--li
 .ship-b{display:inline-flex;align-items:center;gap:.45rem;padding:.7rem 1.5rem;border:1px solid var(--fg);border-radius:99px;text-decoration:none;font-size:14px;letter-spacing:.1em;text-transform:uppercase;transition:transform .3s,background .3s,color .3s}
 .ship-b.solid{background:var(--fg);color:var(--bg)}.ship-b:hover{transform:translateY(-2px)}.ship-b:not(.solid):hover{background:var(--fg);color:var(--bg)}
 @media(max-width:800px){
-  .ship-card{margin:-1.5rem .9rem 0;padding:2rem 1.3rem 1.7rem}.ship-rows div{grid-template-columns:1fr;gap:.35rem}.ship-rows dt{padding-top:0}.ship-rows dd{font-size:1rem}
+  .ship{--lap:1.5rem}.ship-card{margin:calc(var(--lap) * -1) .9rem 0;padding:2rem 1.3rem 1.7rem}.ship-rows div{grid-template-columns:1fr;gap:.35rem}.ship-rows dt{padding-top:0}.ship-rows dd{font-size:1rem}
   .ship-bar{padding:.55rem .75rem;gap:.6rem}.ship-dots i{width:9px;height:9px}.ship-url{font-size:12px;max-width:70%}.ship-go{width:auto}
 }
 
