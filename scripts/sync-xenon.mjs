@@ -20,6 +20,9 @@ const req = createRequire(path.join(xenon, 'package.json'));
 const { build } = await import(pathToFileURL(req.resolve('vite')).href);
 const react = (await import(pathToFileURL(req.resolve('@vitejs/plugin-react')).href)).default;
 const out = path.resolve('vendor/xenon');
+// The build empties the folder; keep the hand-written README that explains it.
+const readmePath = path.join(out, 'README.md');
+const readme = existsSync(readmePath) ? readFileSync(readmePath, 'utf8') : null;
 
 await build({
   root: xenon,
@@ -36,6 +39,8 @@ await build({
     rollupOptions: { external: [/^react($|\/)/, /^react-dom($|\/)/, /^@videojs\//, /^@fontsource/] },
   },
 });
+
+if (readme !== null) writeFileSync(readmePath, readme);
 
 // Record exactly which XENON this came from.
 let commit = 'unknown';
