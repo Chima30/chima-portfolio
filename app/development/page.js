@@ -1,5 +1,6 @@
 import { published, imgUrl } from '@/lib/supabase';
 import CinemaShowcase from '@/components/CinemaShowcase';
+import Shipped from '@/components/Shipped';
 import { art } from '@/lib/img';
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Development' };
@@ -16,6 +17,7 @@ export default async function Dev() {
       <p className="meta cinema-credit"><i>Sintel</i> (2010) by the Blender Foundation, <a href="https://durian.blender.org/" target="_blank" rel="noopener noreferrer">durian.blender.org</a>, licensed <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener noreferrer">CC BY 3.0</a>. Streamed from Mux.</p>
       <p className="links"><a href="https://xenon-ruddy.vercel.app/" target="_blank" rel="noopener noreferrer">Full XENON demo</a><a href="https://github.com/Chima30/Xenon" target="_blank" rel="noopener noreferrer">Source on GitHub</a></p>
     </div>
+    <Shipped />
     {projects.map((p) => (<article className="proj" key={p.id}>
       {p.cover_path && <img src={art(imgUrl(p.cover_path), 1080)} alt={p.name} loading="lazy" decoding="async" />}
       <div><h3>{p.name}</h3>{p.status && <p className="meta">{p.status}</p>}
