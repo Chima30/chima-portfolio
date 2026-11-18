@@ -1,6 +1,6 @@
 import { Container, Controls, ErrorDialog, FullscreenButton, Gesture, Hotkey, MuteButton, PiPButton, PlayButton, SeekButton, SeekIndicator, StatusAnnouncer, Time, TimeSlider, VERSION, VolumeSlider, useAudioTrackOptions, useMedia, useQualityOptions } from "@videojs/react";
 import { usePlayer } from "@videojs/react/video";
-import { createContext, useCallback, useContext, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useId, useLayoutEffect, useMemo, useRef, useState, version } from "react";
 import { Fragment, jsx, jsxs } from "react/jsx-runtime";
 import "@fontsource-variable/space-grotesk";
 // ../player/src/skin/format.ts
@@ -924,6 +924,17 @@ function Atmosphere() {
 			/* @__PURE__ */ jsx("div", { className: "cs-atm-scrim" })
 		]
 	});
+}
+// ../player/src/skin/inert.ts
+var BOOLEAN_INERT = Number.parseInt(version, 10) >= 19;
+/**
+* `inert` as a prop that behaves the same on React 18 and 19. React 19 treats `inert` as a boolean attribute. React 18
+* does not know it: it drops `true` (so a hidden panel stayed reachable by keyboard) and only writes it from a string.
+* Giving React 19 the boolean and React 18 '' (present) or undefined (absent) yields the same DOM on both, so the skin
+* can be dropped into a React 18 site (a Next.js 14 app, say) without losing focus safety.
+*/
+function inertProps(on) {
+	return BOOLEAN_INERT ? { inert: on } : { inert: on ? "" : void 0 };
 }
 // ../player/src/skin/icons.tsx
 function Base({ children, ...rest }) {
@@ -7577,7 +7588,7 @@ function SkinInner({ children, title, subtitle, railSlot, atlasSlot, topActions,
 							id: "cs-rail",
 							className: "cs-rail",
 							"aria-label": "Navigate films and scenes",
-							inert: !(effectiveMode === "explore" || drawerOpen),
+							...inertProps(!(effectiveMode === "explore" || drawerOpen)),
 							"data-interactive": true,
 							children: /* @__PURE__ */ jsxs("div", {
 								className: "cs-rail-inner",
@@ -7612,7 +7623,7 @@ function SkinInner({ children, title, subtitle, railSlot, atlasSlot, topActions,
 								}), /* @__PURE__ */ jsxs("div", {
 									id: "cs-rail-body",
 									className: "cs-rail-body",
-									inert: look.wheelCollapsed && !drawerOpen,
+									...inertProps(look.wheelCollapsed && !drawerOpen),
 									children: [hasNav ? /* @__PURE__ */ jsx(NavigationRail, {
 										films,
 										activeFilmId,
@@ -7822,7 +7833,7 @@ function SkinInner({ children, title, subtitle, railSlot, atlasSlot, topActions,
 						atlasSlot ? /* @__PURE__ */ jsx("section", {
 							className: "cs-atlas",
 							"aria-label": "My Atlas: saved moments",
-							inert: effectiveMode !== "remember",
+							...inertProps(effectiveMode !== "remember"),
 							children: /* @__PURE__ */ jsx("div", {
 								className: "cs-atlas-inner",
 								children: atlasSlot
