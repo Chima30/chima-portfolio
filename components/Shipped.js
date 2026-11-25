@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import ShipVideo from './ShipVideo';
 
 // Live projects shown as small websites in a grid (an entry with wide: true spans the full row): a browser window with the real homepage (captured from the live site,
 // files in public/shipped) and a receipt underneath. To refresh a screenshot, capture the page at 1440x900, 2x.
@@ -46,6 +47,23 @@ const SHIPPED = [
     stat: ['7/7', 'attacks blocked, run live against the testnet business'],
     tech: ['Next.js', 'Rust · NEAR', 'Supabase', 'viem'],
   },
+  {
+    key: 'sova',
+    wide: true,
+    app: true,
+    name: 'SOVA',
+    when: 'Nov 2026',
+    chain: 'Desktop app',
+    bar: 'SOVA — focus session',
+    href: 'https://www.youtube.com/watch?v=zsqQYHev2NM',
+    visit: 'Watch the demo',
+    links: [['Download', 'https://github.com/Chima30/sova/releases/latest'], ['Demo', 'https://www.youtube.com/watch?v=zsqQYHev2NM'], ['Code', 'https://github.com/Chima30/sova']],
+    tagline: 'Notices your breathing before you do.',
+    asks: 'Have I been breathing faster, or going too long without a break, without noticing?',
+    receipt: 'Your webcam measures breathing, pulse and HRV live. SOVA learns your baseline, offers a 60-second reset when a change lasts, then compares before and after.',
+    stat: ['2 min', 'of live camera readings to learn your baseline before it suggests anything'],
+    tech: ['Electron', 'SmartSpectra SDK', 'JavaScript', 'Windows · macOS · Linux'],
+  },
 ];
 
 const ext = { target: '_blank', rel: 'noopener noreferrer' };
@@ -54,9 +72,9 @@ export default function Shipped() {
   const n = String(SHIPPED.length).padStart(2, '0');
   return (
     <section className="shipped" id="shipped" aria-labelledby="shipped-h">
-      <p className="meta">Deployed · open them, they are live</p>
+      <p className="meta">Shipped · open them, they are real</p>
       <h2 id="shipped-h">Shipped, <em>live</em> on the web</h2>
-      <p className="cinema-p">Products I designed, built and deployed. Each window shows the real homepage; open it to use the site itself.</p>
+      <p className="cinema-p">Products I designed, built and shipped. Each window shows the real thing: the live homepage, or the app running. Open it to try it yourself.</p>
 
       <div className="ship-grid">
       {SHIPPED.map((p, i) => (
@@ -67,21 +85,25 @@ export default function Shipped() {
             <span>{p.chain}</span>
           </p>
 
-          <a className="ship-win" href={p.live} {...ext} aria-label={`Open ${p.name} live at ${p.host}`}>
+          <a className="ship-win" href={p.href || p.live} {...ext} aria-label={p.app ? `${p.visit}: ${p.name}` : `Open ${p.name} live at ${p.host}`}>
             <span className="ship-bar" aria-hidden="true">
               <span className="ship-dots"><i /><i /><i /></span>
-              <span className="ship-url"><b className="ship-live" />{p.host}</span>
+              <span className={p.app ? 'ship-url app' : 'ship-url'}><b className="ship-live" />{p.bar || p.host}</span>
               <span className="ship-go">↗</span>
             </span>
             <span className="ship-shot">
-              <Image
-                src={`/shipped/${p.key}.jpg`}
-                alt={`The ${p.name} homepage`}
-                width={2880}
-                height={1800}
-                sizes={p.wide ? '(max-width: 960px) 100vw, 900px' : '(max-width: 800px) 100vw, 450px'}
-              />
-              <span className="ship-visit" aria-hidden="true">Visit {p.host} ↗</span>
+              {p.app ? (
+                <ShipVideo mp4={`/shipped/${p.key}.mp4`} webm={`/shipped/${p.key}.webm`} poster={`/shipped/${p.key}.jpg`} label={`A live ${p.name} session`} />
+              ) : (
+                <Image
+                  src={`/shipped/${p.key}.jpg`}
+                  alt={`The ${p.name} homepage`}
+                  width={2880}
+                  height={1800}
+                  sizes={p.wide ? '(max-width: 960px) 100vw, 900px' : '(max-width: 800px) 100vw, 450px'}
+                />
+              )}
+              <span className="ship-visit" aria-hidden="true">{p.visit || `Visit ${p.host}`} ↗</span>
             </span>
           </a>
 
@@ -96,8 +118,9 @@ export default function Shipped() {
             <p className="ship-stat"><b>{p.stat[0]}</b><span>{p.stat[1]}</span></p>
             <ul className="ship-tech" aria-label="Built with">{p.tech.map((t) => <li key={t}>{t}</li>)}</ul>
             <p className="ship-btns">
-              <a className="ship-b solid" href={p.live} {...ext}>Live <span aria-hidden="true">↗</span></a>
-              <a className="ship-b" href={p.code} {...ext}>Code <span aria-hidden="true">↗</span></a>
+              {(p.links || [['Live', p.live], ['Code', p.code]]).map(([t, u], k) => (
+                <a key={t} className={k ? 'ship-b' : 'ship-b solid'} href={u} {...ext}>{t} <span aria-hidden="true">↗</span></a>
+              ))}
             </p>
           </div>
         </article>
