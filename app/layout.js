@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Backdrop from '@/components/Backdrop';
 import ThemeToggle from '@/components/ThemeToggle';
 import Nav from '@/components/Nav';
-import BackToTop from '@/components/BackToTop';
+import Footer from '@/components/Footer';
 import Motion from '@/components/Motion';
 import { getSettings } from '@/lib/supabase';
 export const dynamic = 'force-dynamic';
@@ -41,13 +41,6 @@ export default async function Root({ children }) {
           <p className="cta-p">{s.contact_text}</p>
           <a className="cta-link" href={X} target="_blank" rel="noopener noreferrer">Get in touch <span className="circ">→</span></a></div>
       </div>
-      <div className="fcards">
-        <div className="glass fl"><b className="flogo">chima</b><p>{s.tagline}</p>
-          <div className="fpills">{nav.map(([h, l]) => <Link key={h} href={h}>{l}</Link>)}</div>
-          <span className="wm" aria-hidden="true">c</span><small>© 2026 Chima. All rights reserved.</small></div>
-        <div className="glass fr"><h4>Find me elsewhere</h4>
-          <a className="soc" href={X} target="_blank" rel="noopener noreferrer" aria-label="Chima on X"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.5 8.6L23 22h-6.8l-5.3-6.9L4.8 22H1.7l8-9.2L1.3 2h7l4.8 6.3L18.9 2zm-1.2 18h1.8L6.6 3.9H4.7L17.7 20z" /></svg></a>
-          <p className="meta">Discord: {s.discord}</p><BackToTop /></div>
-      </div>
+      <Footer s={s} nav={nav} x={X} />
     </footer></body></html>);
 }

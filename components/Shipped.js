@@ -3,7 +3,7 @@ import ShipVideo from './ShipVideo';
 
 // Live projects shown as small websites in a grid (an entry with wide: true spans the full row): a browser window with the real homepage (captured from the live site,
 // files in public/shipped) and a receipt underneath. To refresh a screenshot, capture the page at 1440x900, 2x.
-const SHIPPED = [
+export const SHIPPED = [
   {
     key: 'verac',
     wide: true,
