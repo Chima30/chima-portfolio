@@ -23,5 +23,5 @@ Files: components/XenonPlayer.js (the player), components/CinemaShowcase.js (loa
 Packages: @videojs/react and @videojs/mux-video 10.3.0, @fontsource-variable/space-grotesk. No Supabase setup is needed for it.
 
 SHIPPED (DEVELOPMENT PAGE)
-Below the XENON cinema, "Shipped, live on the web" shows deployed projects (Verac full width, then AVEN and Buffer side by side) as small browser windows with each site's real homepage, plus a receipt card with Live and Code links. Direct link: /development#shipped.
-Files: components/Shipped.js (the list; add a project by adding an entry), public/shipped/*.jpg (homepage screenshots, 1440x900 at 2x).
+Below the XENON cinema, "Shipped, live on the web" shows shipped projects as small windows: Verac full width, AVEN and Buffer side by side, then SOVA (a desktop app, so its window plays a short muted recording of the app). Each has a receipt card with its links. Direct link: /development#shipped.
+Files: components/Shipped.js (the list; add a project by adding an entry), components/ShipVideo.js (the app recording), public/shipped (homepage screenshots at 1440x900, 2x; sova.mp4, sova.webm and sova.jpg made from the GIF in the SOVA repo).
