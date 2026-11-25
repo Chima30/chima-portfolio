@@ -1,8 +1,23 @@
 import Image from 'next/image';
 
-// Live projects shown as small websites: a browser window with the real homepage (captured from the live site,
+// Live projects shown as small websites in a grid (an entry with wide: true spans the full row): a browser window with the real homepage (captured from the live site,
 // files in public/shipped) and a receipt underneath. To refresh a screenshot, capture the page at 1440x900, 2x.
 const SHIPPED = [
+  {
+    key: 'verac',
+    wide: true,
+    name: 'VERAC',
+    when: 'Nov 2026',
+    chain: 'QoreChain',
+    host: 'verac-web.vercel.app',
+    live: 'https://verac-web.vercel.app/start',
+    code: 'https://github.com/Chima30/Verac',
+    tagline: 'AI does the treasury work. It never holds the keys.',
+    asks: 'Can AI agents run a DAO’s payments and grants without being able to move its money?',
+    receipt: 'Six agents check invoices and grant applications. People approve with post-quantum keys the server never sees, and the chain enforces the limits.',
+    stat: ['13/13', 'attacks on the treasury vault refused, each refusal a transaction you can open'],
+    tech: ['Next.js', 'Solidity · Foundry', 'Supabase', 'Gemini', 'Post-quantum keys'],
+  },
   {
     key: 'aven',
     name: 'AVEN',
@@ -43,8 +58,9 @@ export default function Shipped() {
       <h2 id="shipped-h">Shipped, <em>live</em> on the web</h2>
       <p className="cinema-p">Products I designed, built and deployed. Each window shows the real homepage; open it to use the site itself.</p>
 
+      <div className="ship-grid">
       {SHIPPED.map((p, i) => (
-        <article className="ship" key={p.key} data-reveal aria-labelledby={`ship-${p.key}`}>
+        <article className={p.wide ? 'ship wide' : 'ship'} key={p.key} data-reveal aria-labelledby={`ship-${p.key}`}>
           <p className="ship-idx">
             <span>Item {String(i + 1).padStart(2, '0')} / {n}</span>
             <span aria-hidden="true">—</span>
@@ -63,7 +79,7 @@ export default function Shipped() {
                 alt={`The ${p.name} homepage`}
                 width={2880}
                 height={1800}
-                sizes="(max-width: 960px) 100vw, 900px"
+                sizes={p.wide ? '(max-width: 960px) 100vw, 900px' : '(max-width: 800px) 100vw, 450px'}
               />
               <span className="ship-visit" aria-hidden="true">Visit {p.host} ↗</span>
             </span>
@@ -86,6 +102,7 @@ export default function Shipped() {
           </div>
         </article>
       ))}
+      </div>
     </section>
   );
 }
